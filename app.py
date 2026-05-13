@@ -26,7 +26,7 @@ MAX_STEPS = 4
 
 def init_state():
     if "current_key" not in st.session_state:
-        st.session_state.current_key = "Q0"
+        st.session_state.current_key = "Q1"
     if "history" not in st.session_state:
         st.session_state.history = []
     if "result_strategies" not in st.session_state:
@@ -165,6 +165,7 @@ def build_path_label():
 
 def render_result_page():
     st.markdown("# 🎯 你的節稅方案")
+    st.markdown("以下是根據你的狀況，最值得優先執行的建議")
     path_label = build_path_label()
     if path_label:
         st.caption(f"你的狀況：{path_label}")
@@ -174,11 +175,16 @@ def render_result_page():
     if not strategy_ids:
         st.info("目前沒有找到符合的策略，請重新評估。")
     else:
-        st.markdown(f"根據你的狀況，以下 **{len(strategy_ids)}** 個節稅策略值得你了解：")
-        st.markdown("")
-        for sid in strategy_ids:
+        display_ids = strategy_ids[:3]
+        extra = len(strategy_ids) - len(display_ids)
+        for sid in display_ids:
             render_strategy_card(sid)
             st.markdown("")
+        if extra > 0:
+            st.markdown(
+                f'<p style="color:gray;font-size:0.85em;">還有 {extra} 個相關策略，建議諮詢專業會計師了解更多</p>',
+                unsafe_allow_html=True,
+            )
 
     st.markdown("---")
     if st.button("🔄 重新評估", use_container_width=True, key="restart_btn"):
