@@ -26,7 +26,7 @@ MAX_STEPS = 4
 
 def init_state():
     if "current_key" not in st.session_state:
-        st.session_state.current_key = "Q0"
+        st.session_state.current_key = "Q1"
     if "history" not in st.session_state:
         st.session_state.history = []
     if "result_strategies" not in st.session_state:
